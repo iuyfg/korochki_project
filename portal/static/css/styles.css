@@ -1,0 +1,802 @@
+body {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #000000;
+}
+.container {
+    background-color: #1a1a1a;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(255,255,255,0.1);
+    border: 0.3vw solid rgb(194, 175, 7);
+}
+h1 {
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 30px;
+    text-shadow: 0 0 10px rgba(194, 175, 7, 0.5);
+}
+#addCarForm {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+#carName {
+    flex: 1;
+    min-width: 200px;
+    padding: 10px;
+    border: 1px solid rgb(194, 175, 7);
+    border-radius: 5px;
+    background-color: #2a2a2a;
+    color: #ffffff;
+}
+#carName.error {
+    border-color: #f44336;
+}
+button {
+    padding: 10px 20px;
+    background-color: rgb(194, 175, 7);
+    color: #000000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+button:hover {
+    background-color: #e6d25a;
+    transform: scale(1.05);
+}
+.delete-btn {
+    background-color: #f44336;
+    padding: 5px 10px;
+    font-size: 12px;
+}
+.delete-btn:hover {
+    background-color: #d32f2f;
+    transform: scale(1.05);
+}
+.edit-btn {
+    background-color: #2196F3;
+    padding: 5px 10px;
+    font-size: 12px;
+}
+.edit-btn:hover {
+    background-color: #1976D2;
+    transform: scale(1.05);
+}
+.edit-car-btn {
+    background-color: #FF9800;
+    padding: 5px 10px;
+    font-size: 12px;
+    margin-right: 5px;
+}
+.edit-car-btn:hover {
+    background-color: #F57C00;
+    transform: scale(1.05);
+}
+.car-card {
+    border: 1px solid rgb(194, 175, 7);
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    background-color: #2a2a2a;
+    position: relative;
+    box-shadow: 0 0 10px rgba(194, 175, 7, 0.3);
+}
+.car-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.car-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff;
+}
+.car-stats {
+    margin-bottom: 15px;
+    color: #cccccc;
+}
+.car-checks {
+    margin-bottom: 15px;
+    color: #cccccc;
+    font-size: 14px;
+}
+.car-checks-title {
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+.check-item {
+    margin-bottom: 8px;
+    padding: 8px;
+    background-color: #3a3a3a;
+    border-radius: 4px;
+    border-left: 3px solid rgb(194, 175, 7);
+}
+.last-change-info {
+    font-size: 12px;
+    color: #aaaaaa;
+    margin-top: 3px;
+}
+.add-trip-form {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+.add-trip-form input {
+    padding: 8px;
+    border: 1px solid rgb(194, 175, 7);
+    border-radius: 4px;
+    background-color: #3a3a3a;
+    color: #ffffff;
+}
+.add-trip-form input[type="number"] {
+    width: 100px;
+}
+.add-trip-form input[type="date"] {
+    width: 150px;
+}
+.trip-list {
+    margin-top: 15px;
+    padding-left: 20px;
+}
+.trip-item {
+    margin-bottom: 5px;
+    color: #cccccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    border-bottom: 1px solid #444444;
+}
+.trip-item-actions {
+    display: flex;
+    gap: 5px;
+}
+.error-message {
+    color: #f44336;
+    font-size: 14px;
+    margin-top: 5px;
+}
+.fullscreen-notification {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+.fullscreen-notification.show {
+    opacity: 1;
+    visibility: visible;
+}
+.notification-content {
+    background-color: #1a1a1a;
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    max-width: 90%;
+    max-height: 90%;
+    overflow-y: auto;
+    box-shadow: 0 0 30px rgba(194, 175, 7, 0.5);
+    position: relative;
+    border: 2px solid rgb(194, 175, 7);
+}
+.close-notification {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #ffffff;
+}
+.close-notification:hover {
+    color: rgb(194, 175, 7);
+}
+.notification-title {
+    font-size: 28px;
+    color: rgb(194, 175, 7);
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(194, 175, 7, 0.7);
+}
+.notification-message {
+    font-size: 20px;
+    margin-bottom: 30px;
+    line-height: 1.5;
+    color: #ffffff;
+}
+.close-btn {
+    padding: 12px 30px;
+    background-color: rgb(194, 175, 7);
+    color: #000000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: all 0.3s;
+}
+.close-btn:hover {
+    background-color: #e6d25a;
+    transform: scale(1.05);
+}
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 10001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+}
+.modal-content {
+    background-color: #1a1a1a;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 400px;
+    box-shadow: 0 0 20px rgba(194, 175, 7, 0.5);
+    border: 1px solid rgb(194, 175, 7);
+}
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    color: #ffffff;
+}
+.modal-body {
+    margin-bottom: 20px;
+}
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+.modal-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid rgb(194, 175, 7);
+    border-radius: 5px;
+    background-color: #2a2a2a;
+    color: #ffffff;
+    box-sizing: border-box;
+}
+.modal-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.save-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+.save-btn:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+.cancel-btn {
+    background-color: #f44336;
+    color: white;
+}
+.cancel-btn:hover {
+    background-color: #d32f2f;
+    transform: scale(1.05);
+}
+.rename-modal {
+    display: none;
+    position: fixed;
+    z-index: 10002;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+}
+.rename-modal-content {
+    background-color: #1a1a1a;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 400px;
+    box-shadow: 0 0 20px rgba(194, 175, 7, 0.5);
+    border: 1px solid rgb(194, 175, 7);
+}
+.rename-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    color: #ffffff;
+}
+.rename-modal-body {
+    margin-bottom: 20px;
+}
+.rename-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+.rename-modal-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid rgb(194, 175, 7);
+    border-radius: 5px;
+    background-color: #2a2a2a;
+    color: #ffffff;
+    box-sizing: border-box;
+}
+.highlight-date {
+    background-color: rgb(194, 175, 7);
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-weight: bold;
+    color: #000000;
+}
+.settings-form {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    background-color: #3a3a3a;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid rgb(194, 175, 7);
+}
+.settings-form-title {
+    width: 100%;
+    color: #ffffff;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 16px;
+    text-align: center;
+}
+.settings-form input {
+    padding: 8px;
+    border: 1px solid rgb(194, 175, 7);
+    border-radius: 4px;
+    width: 100px;
+    background-color: #2a2a2a;
+    color: #ffffff;
+}
+.settings-form label {
+    font-weight: bold;
+    color: #ffffff;
+    min-width: 80px;
+}
+
+/* Стили для строки поиска */
+.search-container {
+    margin-bottom: 20px;
+}
+#searchInput {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid rgb(194, 175, 7);
+    border-radius: 5px;
+    background-color: #2a2a2a;
+    color: #ffffff;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+#searchInput:focus {
+    outline: none;
+    border-color: #e6d25a;
+    box-shadow: 0 0 5px rgba(194, 175, 7, 0.5);
+}
+.search-placeholder {
+    color: #888888;
+}
+
+/* Стили для заметок */
+.notes-section {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #3a3a3a;
+    border-radius: 5px;
+    border: 1px solid rgb(194, 175, 7);
+}
+.notes-title {
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+.notes-text {
+    color: #cccccc;
+    min-height: 20px;
+    margin-bottom: 10px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+.notes-text.empty {
+    color: #888888;
+    font-style: italic;
+}
+.edit-notes-btn {
+    background-color: #9C27B0;
+    padding: 5px 10px;
+    font-size: 12px;
+}
+.edit-notes-btn:hover {
+    background-color: #7B1FA2;
+    transform: scale(1.05);
+}
+.notes-modal {
+    display: none;
+    position: fixed;
+    z-index: 10003;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+}
+.notes-modal-content {
+    background-color: #1a1a1a;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 0 20px rgba(194, 175, 7, 0.5);
+    border: 1px solid rgb(194, 175, 7);
+}
+.notes-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    color: #ffffff;
+}
+.notes-modal-body {
+    margin-bottom: 20px;
+}
+.notes-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+.notes-textarea {
+    width: 100%;
+    height: 200px;
+    padding: 10px;
+    border: 1px solid rgb(194, 175, 7);
+    border-radius: 5px;
+    background-color: #2a2a2a;
+    color: #ffffff;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    resize: vertical;
+}
+
+@media (max-width: 600px) {
+    #addCarForm {
+        flex-direction: column;
+    }
+    .add-trip-form {
+        flex-direction: column;
+    }
+    .add-trip-form input {
+        width: 100%;
+    }
+    .notification-content {
+        padding: 20px;
+    }
+    .notification-title {
+        font-size: 24px;
+    }
+    .notification-message {
+        font-size: 18px;
+    }
+    .modal-content {
+        width: 90%;
+        margin: 20% auto;
+    }
+    .settings-form {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .settings-form input {
+        width: 100%;
+    }
+    body {
+        padding: 10px;
+    }
+    .container {
+        padding: 15px;
+    }
+    .settings-form-title {
+        text-align: left;
+    }
+}
+/* Кнопка истории */
+.history-btn {
+    background: linear-gradient(135deg, #2196F3, #1976D2);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    margin-left: 5px;
+    transition: all 0.3s ease;
+}
+.history-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4);
+}
+
+/* Последняя запись на карточке */
+.last-trip-badge {
+    background: rgba(33, 150, 243, 0.2);
+    border: 1px solid #2196F3;
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.last-trip-badge .label {
+    color: #aaa;
+    font-size: 0.9em;
+}
+.last-trip-badge .value {
+    font-weight: bold;
+    color: #2196F3;
+}
+
+/* Модальное окно истории */
+.history-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+.history-modal.show {
+    display: flex;
+}
+.history-modal-content {
+    background: #2d2d2d;
+    padding: 20px;
+    border-radius: 12px;
+    border: 2px solid #2196F3;
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+}
+.history-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #444;
+}
+.history-modal-header h3 {
+    color: #2196F3;
+    margin: 0;
+}
+.history-modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.history-item {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 12px 15px;
+    border-radius: 8px;
+    border-left: 4px solid #2196F3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.history-item:first-child {
+    border-left-color: #4CAF50;
+    background: rgba(76, 175, 80, 0.15);
+}
+.history-item .date {
+    color: #aaa;
+    font-size: 0.9em;
+}
+.history-item .km {
+    font-weight: bold;
+    color: #2196F3;
+    font-size: 1.1em;
+}
+.history-item:first-child .km {
+    color: #4CAF50;
+}
+.history-empty {
+    text-align: center;
+    color: #888;
+    padding: 20px;
+}
+.history-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #444;
+}
+
+/* Адаптив для кнопок */
+.car-header .actions {
+    display: flex;
+    gap: 5px;
+}
+@media (max-width: 600px) {
+    .car-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .car-header .actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+}
+
+
+
+.trips-list-modal {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.trips-list-modal .trip-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 8px;
+    background: #2a2a2a;
+    border-radius: 5px;
+    border-left: 3px solid #FFD700;
+}
+
+.trips-list-modal .trip-item span {
+    flex: 1;
+}
+
+.trips-list-modal .trip-item-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.trips-list-modal .trip-item-actions button {
+    padding: 5px 10px;
+    font-size: 12px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.trips-list-modal .edit-btn {
+    background: #2196F3;
+    color: white;
+}
+
+.trips-list-modal .delete-btn {
+    background: #f44336;
+    color: white;
+}
+
+.trips-list-modal .edit-btn:hover {
+    background: #1976D2;
+}
+
+.trips-list-modal .delete-btn:hover {
+    background: #d32f2f;
+}
+.trips-section {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 2px solid #333;
+}
+
+.trips-btn {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #ead6668e 0%, #a39a1885 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.trips-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(122, 102, 9, 0.4);
+}
+
+.trips-btn:active {
+    transform: translateY(0);
+}
+
+/* Контейнер пагинации */
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    padding: 10px;
+    background: #1a1a1a;
+    border-radius: 8px;
+    border: 1px solid #333;
+}
+
+/* Кнопки пагинации */
+.page-btn {
+    padding: 8px 16px;
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #555;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+}
+
+.page-btn:hover:not(:disabled):not(.active) {
+    background-color: #444;
+    border-color: #777;
+}
+
+/* Активная страница */
+.page-btn.active {
+    background-color: #FFD700;
+    color: #000;
+    border-color: #FFD700;
+    font-weight: bold;
+    cursor: default;
+}
+
+/* Неактивные кнопки */
+.page-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: #222;
+    border-color: #333;
+}
