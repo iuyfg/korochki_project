@@ -3,21 +3,13 @@
   "builds": [
     {
       "src": "korochki/wsgi.py",
-      "use": "@vercel/python",
-      "config": {
-        "maxLambdaSize": "15mb",
-        "runtime": "python3.12"
-      }
-    },
-    {
-      "src": "static/**",
-      "use": "@vercel/static"
+      "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/static/(.*)",
-      "dest": "/static/$1"
+      "dest": "korochki/wsgi.py"
     },
     {
       "src": "/(.*)",
