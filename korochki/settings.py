@@ -55,7 +55,7 @@ ROOT_URLCONF = 'korochki.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],  # Можно добавить путь к общим шаблонам, если нужно
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -73,8 +73,6 @@ WSGI_APPLICATION = 'korochki.wsgi.application'
 
 # Database
 # Для Vercel используем SQLite (работает в serverless-среде)
-# Для локальной разработки с PostgreSQL — раскомментируйте блок ниже и закомментируйте SQLite
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -82,22 +80,8 @@ DATABASES = {
     }
 }
 
-# # PostgreSQL для локальной разработки (раскомментируйте при работе локально):
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': os.getenv('DB_NAME', 'korochki_db'),
-#         'USER': os.getenv('DB_USER', 'korochki_user'),
-#         'PASSWORD': os.getenv('DB_PASSWORD', '123456789'),
-#         'HOST': os.getenv('DB_HOST', 'localhost'),
-#         'PORT': os.getenv('DB_PORT', '5432'),
-#     }
-# }
-
 
 # Password validation
-# https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -115,37 +99,31 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/5.1/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
-
+# === Static files (CSS, JavaScript, Images) ===
 STATIC_URL = '/static/'
 
 # Папка, куда collectstatic соберёт все файлы для продакшена
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# Папки с исходными статическими файлами (исправленный путь к portal/static!)
-STATICFILES_DIRS = [
-    BASE_DIR / 'portal' / 'static',
-]
+# ⚠️ ЗАКОММЕНТИРОВАНО: Django сам найдёт статику в portal/static/ через AppDirectoriesFinder
+# STATICFILES_DIRS = [
+#     BASE_DIR / 'portal' / 'static',
+# ]
 
 # Хранение статики через Whitenoise (сжатие + кэширование)
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
-# Media files (загруженные пользователями)
+# Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
