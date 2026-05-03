@@ -1,4 +1,5 @@
 import os
+from decouple import config
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -12,16 +13,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-j&-1^*1=g4ibz-(sh2gdh6c0-&*jrd3e3ht=y19o6e96ji=f8_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# Для Vercel ставим False, для локальной разработки можно менять через env
-DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
+# Единая настройка DEBUG через decouple
+DEBUG = config('DJANGO_DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    '.vercel.app',  # Разрешить все поддомены vercel.app
+    '.vercel.app',
 ]
 
-# Для работы CSRF на Vercel (обязательно!)
 CSRF_TRUSTED_ORIGINS = [
     'https://*.vercel.app',
 ]
@@ -36,12 +36,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'portal',  # Ваше приложение
+    'portal',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # Whitenoise — сразу после SecurityMiddleware
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -71,12 +71,18 @@ TEMPLATES = [
 WSGI_APPLICATION = 'korochki.wsgi.application'
 
 
-# Database
-# Для Vercel используем SQLite (работает в serverless-среде)
+# Database — PostgreSQL для продакшена (Neon)
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT', default='5432'),
+        'OPTIONS': {
+            'sslmode': 'require',
+        },
     }
 }
 
@@ -105,18 +111,9 @@ USE_I18N = True
 USE_TZ = True
 
 
-# === Static files (CSS, JavaScript, Images) ===
+# Static files
 STATIC_URL = '/static/'
-
-# Папка, куда collectstatic соберёт все файлы для продакшена
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-
-# ⚠️ ЗАКОММЕНТИРОВАНО: Django сам найдёт статику в portal/static/ через AppDirectoriesFinder
-# STATICFILES_DIRS = [
-#     BASE_DIR / 'portal' / 'static',
-# ]
-
-# Хранение статики через Whitenoise (сжатие + кэширование)
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
