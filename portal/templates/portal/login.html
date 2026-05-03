@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Вход в систему</title>
+    <link rel="stylesheet" href="{% static 'portal/css/styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #000000;
+        }
+        .container {
+            background-color: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(255,255,255,0.1);
+            border: 0.3vw solid rgb(194, 175, 7);
+        }
+        h1 {
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px rgba(194, 175, 7, 0.5);
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        input {
+            padding: 12px;
+            border: 1px solid rgb(194, 175, 7);
+            border-radius: 5px;
+            background-color: #2a2a2a;
+            color: #ffffff;
+            font-size: 16px;
+        }
+        button {
+            padding: 12px 20px;
+            background-color: rgb(194, 175, 7);
+            color: #000000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #e6d25a;
+            transform: scale(1.05);
+        }
+        .error {
+            color: #f44336;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Авторизация</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="Логин" required>
+            <input type="password" name="password" placeholder="Пароль" required>
+            <button type="submit">Войти</button>
+        </form>
+        {% if error %}
+        <a href="{% url 'index' %}"><div class="error">{{ error }}</div></a>
+        {% endif %}
+    </div>
+</body>
+</html>

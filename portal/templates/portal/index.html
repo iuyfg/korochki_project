@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мониторинг пробега машин</title>
+    <link rel="stylesheet" href="{% static 'portal/css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Мониторинг пробега машин</h1>
+        
+        <!-- Строка поиска -->
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Поиск автомобилей..." class="search-placeholder" />
+        </div>
+<!--        Форма-->
+        <form id="addCarForm">
+            <input type="text" id="carName" placeholder="Название машины" required />
+            <button type="submit">Добавить машину</button>
+        </form>
+        <div id="errorMessage" class="error-message"></div>
+        <div id="carsList"></div>
+    </div>
+
+    <div id="fullscreenNotification" class="fullscreen-notification">
+        <div class="notification-content">
+            <button class="close-notification" onclick="hideNotification()">&times;</button>
+            <div class="notification-title" id="notificationTitle">ВНИМАНИЕ!</div>
+            <div class="notification-message" id="notificationMessage"></div>
+            <button class="close-btn" onclick="hideNotification()">Закрыть</button>
+        </div>
+    </div>
+
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Редактировать запись</h3>
+                <button class="close-notification" onclick="closeEditModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="number" id="editKm" class="modal-input" placeholder="Км" required />
+                <input type="date" id="editDate" class="modal-input" required />
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn cancel-btn" onclick="closeEditModal()">Отмена</button>
+                <button class="modal-btn save-btn" onclick="saveEditedTrip()">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="renameModal" class="rename-modal">
+        <div class="rename-modal-content">
+            <div class="rename-modal-header">
+                <h3>Изменить название машины</h3>
+                <button class="close-notification" onclick="closeRenameModal()">&times;</button>
+            </div>
+            <div class="rename-modal-body">
+                <input type="text" id="renameInput" class="rename-modal-input" placeholder="Новое название" required />
+            </div>
+            <div class="rename-modal-footer">
+                <button class="modal-btn cancel-btn" onclick="closeRenameModal()">Отмена</button>
+                <button class="modal-btn save-btn" onclick="saveRenamedCar()">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
+<script>
+    window.initialCars = {{ cars_json|safe }};
+</script>
+
+    <div id="notesModal" class="notes-modal">
+        <div class="notes-modal-content">
+            <div class="notes-modal-header">
+                <h3>Редактировать заметки</h3>
+                <button class="close-notification" onclick="closeNotesModal()">&times;</button>
+            </div>
+            <div class="notes-modal-body">
+                <textarea id="notesTextarea" class="notes-textarea" placeholder="Введите заметки о машине..."></textarea>
+            </div>
+            <div class="notes-modal-footer">
+                <button class="modal-btn cancel-btn" onclick="closeNotesModal()">Отмена</button>
+                <button class="modal-btn save-btn" onclick="saveNotes()">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- НОВОЕ МОДАЛЬНОЕ ОКНО - ИСТОРИЯ ПРОБЕГА -->
+    <div id="tripsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>История пробега</h3>
+                <button class="close-notification" onclick="closeTripsModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="tripsList" class="trips-list-modal"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn cancel-btn" onclick="closeTripsModal()">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'portal/js/script.js' %}"></script>
+</body>
+</html>
