@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Мониторинг пробега машин</title>
-    <link rel="stylesheet" href="{% static 'portal/css/styles.css' %}">
+   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
     <div class="container">
@@ -67,7 +67,7 @@
     </div>
 
 <script>
-    window.initialCars = {{ cars_json|safe }};
+   window.initialCars = {{ cars_json|default:'[]'|safe }};
 </script>
 
     <div id="notesModal" class="notes-modal">
@@ -102,6 +102,6 @@
         </div>
     </div>
 
-    <script src="{% static 'portal/js/script.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
 </body>
 </html>
