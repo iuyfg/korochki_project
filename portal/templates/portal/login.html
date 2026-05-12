@@ -58,6 +58,49 @@
             text-align: center;
             margin-top: 10px;
         }
+
+        /* Контейнер для галочки */
+.consent-container {
+    display: flex;
+    align-items: flex-start; /* Выравнивание по верху, если текст длинный */
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+/* Сама галочка */
+.custom-checkbox-input {
+    margin-right: 10px;
+    margin-top: 4px; /* Небольшой отступ сверху, чтобы выровнять с текстом */
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+}
+
+/* Текст согласия */
+.consent-label {
+    font-size: 14px;
+    color: #FFFFFF; /* Цвет текста */
+    line-height: 1.4;
+    cursor: pointer;
+}
+
+/* Ссылка на политику */
+.consent-label a {
+    color: #FFFFFF; /* Цвет ссылки (можно под ваш дизайн) */
+    text-decoration: underline;
+}
+
+.consent-label a:hover {
+    text-decoration: none;
+}
+
+/* Сообщение об ошибке */
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    width: 100%;
+}
     </style>
 </head>
 <body>
@@ -67,6 +110,21 @@
             {% csrf_token %}
             <input type="text" name="username" placeholder="Логин" required>
             <input type="password" name="password" placeholder="Пароль" required>
+            <div class="consent-container">
+    <!-- Поле формы -->
+    <input type="checkbox" name="privacy_policy" id="id_privacy_policy" class="custom-checkbox-input" required>
+
+    <!-- Текст и ссылка -->
+    <label for="id_privacy_policy" class="consent-label">
+        Нажимая кнопку, я даю согласие на
+        <a >обработку персональных данных</a>
+    </label>
+
+    <!-- Ошибка валидации (появится, если галочку не поставили) -->
+    {% if form.privacy_policy.errors %}
+        <div class="error-message">{{ form.privacy_policy.errors }}</div>
+    {% endif %}
+</div>
             <button type="submit">Войти</button>
         </form>
         {% if error %}
