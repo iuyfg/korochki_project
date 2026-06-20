@@ -33,7 +33,7 @@ def home(request):
     # Отладка в консоль сервера (видно в Vercel Runtime Logs)
     print(f"DEBUG: Передаю {len(cars_data)} машин в шаблон")
 
-    return render(request, 'portal/index2.html', {
+    return render(request, 'portal/index.html', {
         'cars_json': cars_json
     })
 
