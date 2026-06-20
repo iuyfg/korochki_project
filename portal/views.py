@@ -9,7 +9,10 @@ import datetime
 
 
 def home(request):
-    return render(request, 'portal/index2.html')
+    # Получаем все автомобили из базы данных
+    cars = Car.objects.all()
+    # Передаём их в шаблон через словарь context
+    return render(request, 'portal/index2.html', {'cars': cars})
 
 
 def login_view(request):
