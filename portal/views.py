@@ -6,6 +6,8 @@ from .models import Car, Trip
 from django.views.decorators.csrf import csrf_exempt
 import json
 import datetime
+from django.http import JsonResponse
+from django.core.serializers.json import DjangoJSONEncoder
 
 
 def home(request):
@@ -205,3 +207,11 @@ def sync_update_maintenance(request, car_name):
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
     return JsonResponse({'error': 'Только POST'}, status=405)
+
+def api_get_cars(request):
+    """Отдаёт все машины в формате JSON для фронтенда"""
+    cars = Car.objects.all().values('id', 'name', 'notes',
+                                    'oil_change_interval', 'tire_change_interval',
+                                    'last_oil_change_km', 'last_tire_change_km')
+    # Используем DjangoJSONEncoder для безопасной сериализации
+    return JsonResponse(list(cars), safe=False, json_dumps_params={'cls': DjangoJSONEncoder})

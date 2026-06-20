@@ -11,31 +11,6 @@ let filteredCars = [];
 let currentPage = 1;
 const itemsPerPage = 5; // Максимум 5 машин на странице
 
-// ===== НОВЫЙ БЛОК: СИНХРОНИЗАЦИЯ С DJANGO ПРИ ЗАГРУЗКЕ =====
-// Если Django передал машины из базы — используем их вместо localStorage
-if (typeof window.initialCars !== 'undefined' && window.initialCars && window.initialCars.length > 0) {
-    console.log('🔄 Загружаю машины из базы Django:', window.initialCars);
-
-    // Преобразуем данные из Django в формат, который понимает ваш JS
-    cars = window.initialCars.map(car => ({
-        name: car.name,
-        notes: car.notes || '',
-        oilInterval: car.oil_change_interval || 50000,
-        tireInterval: car.tire_change_interval || 60000,
-        oilCheckKm: car.last_oil_change_km || 0,
-        tireCheckKm: car.last_tire_change_km || 0,
-        trips: [] // Поездки пока не передаём, можно добавить позже
-    }));
-
-    // Сохраняем в localStorage, чтобы JS работал как обычно
-    saveCars();
-
-    // Перерисовываем интерфейс
-    renderCars();
-    checkAndShowNotifications();
-}
-// ===== КОНЕЦ БЛОКА СИНХРОНИЗАЦИИ =====
-
 // ===== БАЗОВЫЕ ФУНКЦИИ =====
 
 function saveCars() {
@@ -583,6 +558,34 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
-// Первичная отрисовка
-renderCars();
-checkAndShowNotifications();
+// ===== НОВЫЙ БЛОК: СИНХРОНИЗАЦИЯ С DJANGO ПРИ ЗАГРУЗКЕ =====
+// Этот код выполняется ПОСЛЕ загрузки всех функций, поэтому saveCars() и renderCars() уже существуют
+document.addEventListener('DOMContentLoaded', function() {
+    // Если Django передал машины из базы — используем их вместо localStorage
+    if (typeof window.initialCars !== 'undefined' && window.initialCars && window.initialCars.length > 0) {
+        console.log('🔄 Загружаю машины из базы Django:', window.initialCars);
+
+        // Преобразуем данные из Django в формат, который понимает ваш JS
+        cars = window.initialCars.map(car => ({
+            name: car.name,
+            notes: car.notes || '',
+            oilInterval: car.oil_change_interval || 50000,
+            tireInterval: car.tire_change_interval || 60000,
+            oilCheckKm: car.last_oil_change_km || 0,
+            tireCheckKm: car.last_tire_change_km || 0,
+            trips: [] // Поездки пока не передаём, можно добавить позже
+        }));
+
+        // Сохраняем в localStorage, чтобы JS работал как обычно
+        saveCars();
+
+        // Перерисовываем интерфейс
+        renderCars();
+        checkAndShowNotifications();
+    } else {
+        // Если данных из Django нет, просто рисуем то, что в localStorage
+        renderCars();
+        checkAndShowNotifications();
+    }
+});
+// ===== КОНЕЦ БЛОКА СИНХРОНИЗАЦИИ =====
