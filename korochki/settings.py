@@ -143,8 +143,12 @@ SECRET_KEY = 'django-insecure-j&-1^*1=g4ibz-(sh2gdh6c0-&*jrd3e3ht=y19o6e96ji=f8_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    '.vercel.app',  # Точка в начале разрешает любые поддомены (например, site123.vercel.app)
+    'korochkiprojectfinalversion.vercel.app', # Явно указываем текущий домен
+]
 
 # Application definition
 
