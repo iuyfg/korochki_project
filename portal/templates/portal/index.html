@@ -5,17 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Мониторинг пробега машин</title>
-   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
     <div class="container">
         <h1>Мониторинг пробега машин</h1>
-        
+
         <!-- Строка поиска -->
         <div class="search-container">
             <input type="text" id="searchInput" placeholder="Поиск автомобилей..." class="search-placeholder" />
         </div>
-<!--        Форма-->
+
+        <!-- Форма -->
         <form id="addCarForm">
             <input type="text" id="carName" placeholder="Название машины" required />
             <button type="submit">Добавить машину</button>
@@ -24,6 +25,7 @@
         <div id="carsList"></div>
     </div>
 
+    <!-- Уведомления и модальные окна -->
     <div id="fullscreenNotification" class="fullscreen-notification">
         <div class="notification-content">
             <button class="close-notification" onclick="hideNotification()">&times;</button>
@@ -66,10 +68,6 @@
         </div>
     </div>
 
-<script>
-   window.initialCars = {{ cars_json|default:'[]'|safe }};
-</script>
-
     <div id="notesModal" class="notes-modal">
         <div class="notes-modal-content">
             <div class="notes-modal-header">
@@ -86,7 +84,6 @@
         </div>
     </div>
 
-    <!-- НОВОЕ МОДАЛЬНОЕ ОКНО - ИСТОРИЯ ПРОБЕГА -->
     <div id="tripsModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -102,6 +99,21 @@
         </div>
     </div>
 
+    <!-- ✅ ДАННЫЕ ИЗ DJANGO: ВСТАВЛЕНО В КОНЕЦ, ПЕРЕД JS -->
+    <!-- Добавлен console.log для отладки -->
+    <script>
+        try {
+            // Пытаемся безопасно распарсить JSON из Django
+            window.initialCars = {{ cars_json|default:'[]'|safe }};
+            console.log('✅ Django передал initialCars:', window.initialCars);
+            console.log('📊 Количество машин:', Array.isArray(window.initialCars) ? window.initialCars.length : 'НЕ МАССИВ');
+        } catch (e) {
+            console.error('❌ Ошибка при чтении initialCars:', e);
+            window.initialCars = [];
+        }
+    </script>
+
+    <!-- ✅ JS ПОДКЛЮЧАЕТСЯ ПОСЛЕ ДАННЫХ -->
     <script src="{% static 'js/script.js' %}"></script>
 </body>
 </html>
