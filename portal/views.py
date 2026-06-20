@@ -220,3 +220,43 @@ def api_get_cars(request):
                                     'last_oil_change_km', 'last_tire_change_km')
     # Используем DjangoJSONEncoder для безопасной сериализации
     return JsonResponse(list(cars), safe=False, json_dumps_params={'cls': DjangoJSONEncoder})
+
+
+def debug_db(request):
+    """Показывает ВСЕ машины из базы данных"""
+    cars = Car.objects.all()
+
+    html = """
+    <html>
+    <head><title>Debug Database</title></head>
+    <body style="font-family: Arial; padding: 20px;">
+        <h1>🚗 Машины в базе данных</h1>
+        <p><strong>Всего машин:</strong> {}</p>
+        <table border="1" cellpadding="10" style="border-collapse: collapse; margin-top: 20px;">
+            <tr style="background: #f0f0f0;">
+                <th>ID</th><th>Название</th><th>Заметки</th><th>Интервал масла</th>
+            </tr>
+    """.format(cars.count())
+
+    for car in cars:
+        html += """
+            <tr>
+                <td>{}</td>
+                <td>{}</td>
+                <td>{}</td>
+                <td>{}</td>
+            </tr>
+        """.format(car.id, car.name, car.notes or '-', car.oil_change_interval)
+
+    if not cars:
+        html += '<tr><td colspan="4" style="text-align: center; color: red;">📭 ПУСТО! Машины не сохранены в базе</td></tr>'
+
+    html += """
+        </table>
+        <br>
+        <a href="/admin/">← Вернуться в админку</a>
+    </body>
+    </html>
+    """
+
+    return HttpResponse(html)
