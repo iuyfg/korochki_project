@@ -13,7 +13,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 def home(request):
     cars = Car.objects.all()
 
-    # Преобразуем QuerySet в список словарей, а затем в JSON-строку
+    # Преобразуем QuerySet в список словарей
     cars_data = [
         {
             'id': car.id,
@@ -27,9 +27,14 @@ def home(request):
         for car in cars
     ]
 
-    # Передаём именно cars_json, как ждёт шаблон
+    # Используем DjangoJSONEncoder для безопасной сериализации
+    cars_json = json.dumps(cars_data, cls=DjangoJSONEncoder)
+
+    # Отладка в консоль сервера (видно в Vercel Runtime Logs)
+    print(f"DEBUG: Передаю {len(cars_data)} машин в шаблон")
+
     return render(request, 'portal/index2.html', {
-        'cars_json': json.dumps(cars_data)
+        'cars_json': cars_json
     })
 
 
