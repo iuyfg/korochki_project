@@ -9,10 +9,26 @@ import datetime
 
 
 def home(request):
-    # Получаем все автомобили из базы данных
     cars = Car.objects.all()
-    # Передаём их в шаблон через словарь context
-    return render(request, 'portal/index2.html', {'cars': cars})
+
+    # Преобразуем QuerySet в список словарей, а затем в JSON-строку
+    cars_data = [
+        {
+            'id': car.id,
+            'name': car.name,
+            'notes': car.notes or '',
+            'oil_change_interval': car.oil_change_interval,
+            'tire_change_interval': car.tire_change_interval,
+            'last_oil_change_km': car.last_oil_change_km,
+            'last_tire_change_km': car.last_tire_change_km
+        }
+        for car in cars
+    ]
+
+    # Передаём именно cars_json, как ждёт шаблон
+    return render(request, 'portal/index2.html', {
+        'cars_json': json.dumps(cars_data)
+    })
 
 
 def login_view(request):
